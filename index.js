@@ -1,29 +1,33 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
-const PORT = 8888;
 const path = require('path');
 
-app.use(express.static("/Users/FAMILY/assignment1"));
+const PORT = process.env.PORT || 8888;
+const STATIC_PATH = process.env.STATIC_PATH;
+const MAIN_HTML_PATH = process.env.MAIN_HTML_PATH;
+const SO_HTML_PATH = process.env.SO_HTML_PATH;
+const RS_HTML_PATH = process.env.RS_HTML_PATH;
+const RD_HTML_PATH = process.env.RD_HTML_PATH;
+
+app.use(express.static(STATIC_PATH));
 
 app.get("/", (req, res) => {
-  res.sendFile("/Users/FAMILY/assignment1/main.html");
+  res.sendFile(MAIN_HTML_PATH);
+});
+
+app.get('/so', function(req, res){
+    res.sendFile(path.join(STATIC_PATH, 'so.html')); 
+});
+
+app.get('/rs', function(req, res){
+    res.sendFile(path.join(STATIC_PATH, 'rs.html'));  
+});
+
+app.get('/rd', function(req, res){
+    res.sendFile(path.join(STATIC_PATH, 'rd.html')); 
 });
 
 app.listen(PORT, () => {
   console.log(`Server started at port: ${PORT}`);
 });
-
-app.get('/so', function(req, res){
-    const soPath = path.join(__dirname,'so.html')
-    res.sendFile(soPath);
-})
-
-app.get('/rs', function(req, res){
-    const rsPath = path.join(__dirname,'rs.html')
-    res.sendFile(rsPath);
-})
-
-app.get('/rd', function(req, res){
-    const rdPath = path.join(__dirname,'rd.html')
-    res.sendFile(rdPath);
-})
